@@ -1,34 +1,23 @@
-import { useState } from "react"
+import { useReducer, useRef } from "react"
 import Input from "./Input";
 
-export default function Form() {
+export default function Form({onAdd}) {
 
-    const [newButton, setNewButton] = useState(createNewButton());
-    const [forms, setForms] = useState({
-        title: '',
-        description: '',
-        date: ''
-    })
+    const Title = useRef()
+    const Description = useRef()
+    const DueDate = useRef()
 
-    function createNewButton() {
-        const initialbutton = [];
-        for (let i = 0; i <= 1; i++) {
-            initialbutton.push({
-                id: i,
-                title: 'Item' + (i + 1)
-            });
-        }
-        return initialbutton;
-    }
+    function handleSalve(){
+        // Collection values
+        const enteredTitle = Title.current.value
+        const enteredDescription = Description.current.value
+        const enteredDueDate = DueDate.current.value
 
-    function handleNewButton() {
-        setNewButton([
-            ...newButton,
-            {
-                id: newButton,
-                title: forms.title
-            }
-        ])
+        onAdd({
+            Title: enteredTitle,
+            Description: enteredDescription,
+            DueDate: enteredDueDate
+        })
     }
 
     return (
@@ -41,7 +30,10 @@ export default function Form() {
                         </button>
                     </li>
                     <li>
-                        <button className="px-6 py-2 rounded-md bg-stone-800 text-stone-50 hover:bg-stone-950" onClick={handleNewButton}>Save</button>
+                        <button className="px-6 py-2 rounded-md bg-stone-800 text-stone-50 hover:bg-stone-950" 
+                        onClick={handleSalve}>
+                            Save
+                        </button>
                     </li>
 
                 </menu>
